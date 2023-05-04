@@ -62,6 +62,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Floaties"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f7791591-9c06-4e09-a236-4e7e229d26a6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -348,6 +357,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""MenuOpenClose"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2d2935de-0ec1-4c20-be3e-f00e40e9575d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Floaties"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3e4a53c6-d06e-4303-a2b8-b3ad54be1dad"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Floaties"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -932,6 +963,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
         m_Movement_Dash = m_Movement.FindAction("Dash", throwIfNotFound: true);
         m_Movement_MenuOpenClose = m_Movement.FindAction("MenuOpenClose", throwIfNotFound: true);
+        m_Movement_Floaties = m_Movement.FindAction("Floaties", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1010,6 +1042,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Movement_Jump;
     private readonly InputAction m_Movement_Dash;
     private readonly InputAction m_Movement_MenuOpenClose;
+    private readonly InputAction m_Movement_Floaties;
     public struct MovementActions
     {
         private @Controls m_Wrapper;
@@ -1018,6 +1051,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputAction @Dash => m_Wrapper.m_Movement_Dash;
         public InputAction @MenuOpenClose => m_Wrapper.m_Movement_MenuOpenClose;
+        public InputAction @Floaties => m_Wrapper.m_Movement_Floaties;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1039,6 +1073,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @MenuOpenClose.started += instance.OnMenuOpenClose;
             @MenuOpenClose.performed += instance.OnMenuOpenClose;
             @MenuOpenClose.canceled += instance.OnMenuOpenClose;
+            @Floaties.started += instance.OnFloaties;
+            @Floaties.performed += instance.OnFloaties;
+            @Floaties.canceled += instance.OnFloaties;
         }
 
         private void UnregisterCallbacks(IMovementActions instance)
@@ -1055,6 +1092,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @MenuOpenClose.started -= instance.OnMenuOpenClose;
             @MenuOpenClose.performed -= instance.OnMenuOpenClose;
             @MenuOpenClose.canceled -= instance.OnMenuOpenClose;
+            @Floaties.started -= instance.OnFloaties;
+            @Floaties.performed -= instance.OnFloaties;
+            @Floaties.canceled -= instance.OnFloaties;
         }
 
         public void RemoveCallbacks(IMovementActions instance)
@@ -1222,6 +1262,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnMenuOpenClose(InputAction.CallbackContext context);
+        void OnFloaties(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    [Header("Health")]
     [SerializeField] private float startingHealth;
     public float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
+
+    [Header("iFrames")]
+    [SerializeField] private float iFramesDuration;
+    [SerializeField] private int numberOfFlashes;
 
     private void Awake()
     {
@@ -22,6 +27,7 @@ public class Health : MonoBehaviour
         if (currentHealth > 0)
         {
             anim.SetTrigger("hurt");
+            StartCoroutine(Invulerability());
         }
         else
         {
@@ -32,5 +38,20 @@ public class Health : MonoBehaviour
                 dead = true;
             }
         }
+    }
+
+    public void AddHealth(float _value)
+    {
+        currentHealth = Mathf.Clamp(currentHealth + _value, 0, startingHealth);
+    }
+
+    private IEnumerator Invulerability()
+    {
+        Physics2D.IgnoreLayerCollision(6, 7, true);
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            yield return new WaitForSeconds(iFramesDuration);
+        }
+        Physics2D.IgnoreLayerCollision(6, 7, false);
     }
 }
