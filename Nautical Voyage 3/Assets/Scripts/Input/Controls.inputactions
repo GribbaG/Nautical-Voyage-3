@@ -40,15 +40,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Floaties",
-                    "type": "PassThrough",
-                    "id": "f7791591-9c06-4e09-a236-4e7e229d26a6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -335,28 +326,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "MenuOpenClose",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2d2935de-0ec1-4c20-be3e-f00e40e9575d",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Floaties",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3e4a53c6-d06e-4303-a2b8-b3ad54be1dad",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Floaties",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

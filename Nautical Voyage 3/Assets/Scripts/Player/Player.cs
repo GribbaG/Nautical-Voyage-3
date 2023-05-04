@@ -54,13 +54,6 @@ public class Player : MonoBehaviour
     //double jump
     private bool doubleJump;
 
-    //floaties
-    private float defaultGravity = 5f;
-    private bool canFloat = true;
-    private float floatTimer = 3;
-    private float floatTimerCountdown;
-    private bool cooldownNotOver;
-
     //ground detection
     private RaycastHit2D groundHit;
 
@@ -75,6 +68,8 @@ public class Player : MonoBehaviour
         coll = GetComponent<Collider2D>();
 
         StartDirectionCheck();
+
+
 
         _cameraFollowObject = _cameraFollowGO.GetComponent<CameraFollowObject>();
 
@@ -96,7 +91,11 @@ public class Player : MonoBehaviour
         DoubleJumpCheck();
         FallCheck();
         CheckForLand();
-        FloatiesCheck();
+
+        if (CheckForLand())
+        {
+            anim.SetTrigger("landed");
+        }
 
         //if we are falling past a certain speed threshold
         if (rb.velocity.y < _fallSpeedYDampingChangeThreshond && !CameraManager.instance.IsLerpingYDamping && !CameraManager.instance.LerpedFromPlayerFalling)
@@ -243,7 +242,6 @@ public class Player : MonoBehaviour
 
     #region Movement Abilities
 
-    //dash
     private IEnumerator Dash()
     {
         canDash = false;
@@ -278,60 +276,11 @@ public class Player : MonoBehaviour
         }
     }
     
-    //double jump
     private void DoubleJumpCheck()
     {
         if (IsGrounded() && !UserInput.instance.controls.Movement.Jump.WasPressedThisFrame())
         {
             doubleJump = true;
-        }
-    }
-
-    //floaties and anchor
-    private void FloatiesCheck()
-    {
-        if (IsGrounded())
-        {
-            floatTimerCountdown = floatTimer;
-            canFloat = true;
-            rb.gravityScale = defaultGravity;
-            cooldownNotOver = true;
-        }
-
-        if (rb.gravityScale == -0.5)
-        {
-            floatTimerCountdown -= Time.deltaTime;
-        }
-
-        if (floatTimerCountdown <= 0 && cooldownNotOver)
-        {
-            canFloat = false;
-            rb.gravityScale = defaultGravity;
-            cooldownNotOver = !cooldownNotOver;
-        }
-
-        if (UserInput.instance.controls.Movement.Floaties.WasPressedThisFrame())
-        {
-            if (rb.gravityScale >= 0f && canFloat)
-            {
-                if (rb.gravityScale == 10f)
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, 0f);
-                }
-                
-                rb.gravityScale = -0.5f;
-            }
-
-            else if (rb.gravityScale == -0.5f)
-            {
-                rb.gravityScale = 10;
-            }
-
-            else
-            {
-                rb.gravityScale = 10;
-            }
-
         }
     }
 
